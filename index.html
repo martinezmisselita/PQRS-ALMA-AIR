@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PQRS - Alma Air</title>
+  <style>
+    body { font-family: 'Georgia', serif; margin: 0; background: #f5f0e6; color: #3a1f1f; }
+    .container { max-width: 760px; margin: 40px auto; padding: 28px; background: #ffffff; border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); border: 1px solid #e6ddd2; }
+    h1 { color: #751919; font-size: 32px; letter-spacing: 1px; margin-top: 0; text-transform: uppercase; }
+    label { display: block; font-weight: bold; margin-top: 16px; color: #4a2828; }
+    input[type=text], input[type=email], textarea, select {
+      width: 100%; padding: 12px; border: 1px solid #d5c8b8; border-radius: 10px; font-size: 15px; background: #fcf9f4;
+    }
+    textarea { min-height: 130px; resize: vertical; }
+    .btn {
+      margin-top: 22px; background: #751919; color: white;
+      padding: 12px 20px; border: none; border-radius: 12px;
+      font-size: 16px; cursor: pointer; font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .btn:hover { background: #5a1212; }
+    .note { background: #f3e7d9; padding: 14px; border-radius: 10px; margin-top: 18px; border: 1px solid #e0d3c2; color: #4a2828; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>PQRS — Alma Air</h1>
+    <p>Bienvenido al sistema de Peticiones, Quejas, Reclamos y Sugerencias de <strong>Alma Air</strong>. Nuestro equipo te responderá en un plazo máximo de 5 días hábiles.</p>
+
+    <form id="pqrsForm" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
+
+      <label for="tipo">Tipo de solicitud</label>
+      <select id="tipo" name="tipo" required>
+        <option value="">-- Selecciona --</option>
+        <option>Petición</option>
+        <option>Queja</option>
+        <option>Reclamo</option>
+        <option>Sugerencia</option>
+      </select>
+
+      <label for="nombre">Nombre completo *</label>
+      <input id="nombre" type="text" name="nombre" required />
+
+      <label for="email">Correo electrónico *</label>
+      <input id="email" type="email" name="email" required />
+
+      <label for="telefono">Número de teléfono</label>
+      <input id="telefono" type="text" name="telefono" />
+
+      <label for="vuelo">Número de vuelo (opcional)</label>
+      <input id="vuelo" type="text" name="vuelo" />
+
+      <label for="asunto">Asunto *</label>
+      <input id="asunto" type="text" name="asunto" required />
+
+      <label for="mensaje">Descripción *</label>
+      <textarea id="mensaje" name="mensaje" required></textarea>
+
+      <label for="archivo">Adjuntar archivo (opcional)</label>
+      <input type="file" id="archivo" name="archivo" accept=".jpg,.png,.pdf,.doc,.docx" />
+
+      <label>
+        <input type="checkbox" name="consent" required />
+        Autorizo el tratamiento de mis datos según la política de privacidad.
+      </label>
+
+      <input type="text" name="website" style="display:none" />
+
+      <button class="btn" type="submit">Enviar PQRS</button>
+
+      <div id="msg" class="note" style="display:none"></div>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById('pqrsForm');
+    form.addEventListener('submit', function() {
+      const id = 'AA-PQRS-' + new Date().getFullYear() + '-' + Math.floor(Math.random()*9000+1000);
+      const hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'case_id';
+      hidden.value = id;
+      form.appendChild(hidden);
+
+      const msg = document.getElementById('msg');
+      msg.style.display = 'block';
+      msg.textContent = 'Enviando tu solicitud... Número de caso: ' + id;
+    });
+  </script>
+</body>
+</html>
